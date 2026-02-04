@@ -37,8 +37,8 @@
       z-index: 0;
     }
 
-    /* "Star noise" via repeating radial gradients */
-    .bg::before{
+    /* "Star noise" via repeating radial gradients ORIGINAL RADIAL BACKGROUND */
+    /*.bg::before{
       content:"";
       position:absolute; inset:-20%;
       background:
@@ -49,8 +49,30 @@
       filter: blur(.2px);
       animation: drift 18s linear infinite;
       opacity: .9;
-    }
+    } */
 
+    .bg::before{
+      content:"";
+      position:absolute; inset:-20%;
+      background:
+        /* subtle noise layer */
+        repeating-radial-gradient(
+          circle at 50% 45%,
+          rgba(255,255,255,0.015) 0px,
+          rgba(255,255,255,0.015) 1px,
+          rgba(255,255,255,0) 2px,
+          rgba(255,255,255,0) 4px
+        ),
+        /* your existing stars */
+        radial-gradient(circle at 20% 30%, rgba(110,243,255,.12) 0 1px, transparent 2px) 0 0/220px 220px,
+        radial-gradient(circle at 70% 40%, rgba(167,139,250,.12) 0 1px, transparent 2px) 0 0/260px 260px,
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,.08) 0 1px, transparent 2px) 0 0/180px 180px,
+        radial-gradient(circle at 90% 70%, rgba(255,255,255,.05) 0 1px, transparent 2px) 0 0/320px 320px;
+      filter: blur(.25px);
+      animation: drift 18s linear infinite;
+      opacity: .9;
+    }
+    
     /* scanlines + subtle flicker */
     .bg::after{
       content:"";
