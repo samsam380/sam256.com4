@@ -28,7 +28,7 @@
       font-family: var(--mono);
       overflow: hidden;
     }
-    
+
     /* ====== Background: stars + scanlines + vignette ====== */
     .bg {
       position: fixed;
@@ -37,7 +37,7 @@
       z-index: 0;
     }
 
-    /* "Star noise" via repeating radial gradients ORIGINAL RADIAL BACKGROUND */
+    /* "Star noise" via repeating radial gradients */
     .bg::before{
       content:"";
       position:absolute; inset:-20%;
@@ -49,8 +49,8 @@
       filter: blur(.2px);
       animation: drift 18s linear infinite;
       opacity: .9;
-    } 
-    
+    }
+
     /* scanlines + subtle flicker */
     .bg::after{
       content:"";
@@ -255,7 +255,7 @@
       letter-spacing: .10em;
       text-transform: none;
       color: rgba(217,243,255,.85);
-      background: rgba(13, 54, 67, 0.85);
+      background: rgba(10,10,10,.75);
       border: 1px solid rgba(110,243,255,.18);
       box-shadow: 0 0 28px rgba(110,243,255,.06);
       padding: 7px 9px;
@@ -267,9 +267,7 @@
     a:hover{
       color: rgba(217,243,255,.95);
       background: rgba(110,243,255,.04);
-      box-shadow:
-       inset 0 0 18px rgba(110,243,255,.08),
-       0 0 28px rgba(110,243,255,.06);
+      box-shadow: 0 0 26px rgba(110,243,255,.08);
       transform: translateY(-1px);
     }
     a:hover::after{ opacity: 1; }
@@ -296,10 +294,8 @@
       border-radius: 18px;
       padding: 18px 18px 14px;
       border: 1px solid rgba(110,243,255,.18);
-      background: rgba(8,8,8,.65);
-      box-shadow:
-        inset 0 0 32px rgba(110,243,255,.10),
-        0 0 60px rgba(110,243,255,.08);
+      background: rgba(8,8,8,.78);
+      box-shadow: 0 0 60px rgba(110,243,255,.06);
       text-align: left;
     }
     .panel h2{
