@@ -217,6 +217,29 @@
       color: rgba(217,243,255,.85);
       background: rgba(255,255,255,.03);
     }
+    .hint-trigger{
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .hint-trigger kbd{
+      display: inline-block;
+      min-width: 1.8em;
+      text-align: center;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .hint-trigger:hover kbd,
+    .hint-trigger:focus-visible kbd{
+      border-color: rgba(110,243,255,.45);
+      box-shadow: 0 0 18px rgba(110,243,255,.18);
+      transform: translateY(-1px);
+    }
 
     .links{
       width: min(980px, 92vw);
@@ -378,7 +401,15 @@
 
     
       <div class="hint">
-        press <kbd>?</kbd> for transmission • press <kbd>S</kbd> to silence
+        press
+        <button type="button" class="hint-trigger" id="openTrigger" aria-label="Open transmission">
+          <kbd>?</kbd>
+        </button>
+        for transmission • press
+        <button type="button" class="hint-trigger" id="silenceTrigger" aria-label="Toggle silence mode">
+          <kbd>S</kbd>
+        </button>
+        to silence
       </div>
     </div>
     
@@ -410,7 +441,7 @@
         <div style="font-size:.72rem; letter-spacing:.14em; color: rgba(181,181,181,.6); text-transform:uppercase;">
           // close with <b>Esc</b>
         </div>
-        <div class="btn" id="closeBtn">close</div>
+        <button type="button" class="btn" id="closeBtn" aria-label="Close transmission">close</button>
       </div>
     </div>
   </div>
@@ -459,6 +490,10 @@
     }
 
     closeBtn.addEventListener('click', closeOverlay);
+    openTrigger.addEventListener('click', openOverlay);
+    silenceTrigger.addEventListener('click', () => {
+      document.body.classList.toggle('silence');
+    });
     overlay.addEventListener('click', (e) => { if(e.target === overlay) closeOverlay(); });
 
     // Keyboard easter eggs
