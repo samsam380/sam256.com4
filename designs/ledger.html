@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>sam256 — ledger</title>
+<meta name="description" content="An index of tools, notes and objects on Bitcoin, kept by sam256." />
+<meta name="theme-color" content="#f3efe6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#12100d" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="sam256" />
+<meta property="og:description" content="An index of tools, notes and objects on Bitcoin." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23f3efe6'/><text x='16' y='23' font-family='Georgia,serif' font-size='19' fill='%23b3411f' text-anchor='middle'>s</text></svg>" />
+
+<style>
+  :root{
+    color-scheme: light dark;
+    --paper:#f3efe6;
+    --paper-2:#eae5d9;
+    --ink:#17140f;
+    --ink-soft:#4c463c;
+    --ink-faint:#6f685b;
+    --rule:rgba(23,20,15,.16);
+    --rule-faint:rgba(23,20,15,.08);
+    --accent:#b3411f;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#12100d;
+      --paper-2:#1a1713;
+      --ink:#f0ebe1;
+      --ink-soft:#bcb3a5;
+      --ink-faint:#89806f;
+      --rule:rgba(240,235,225,.18);
+      --rule-faint:rgba(240,235,225,.09);
+      --accent:#e07a4f;
+    }
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font:400 17px/1.65 var(--serif);
+    /* Very fine paper tooth. */
+    background-image:radial-gradient(var(--rule-faint) .5px, transparent .5px);
+    background-size:5px 5px;
+  }
+
+  .sheet{
+    width:min(1080px,100%);
+    margin-inline:auto;
+    padding:clamp(26px,5vw,56px) clamp(22px,6vw,60px) 0;
+    display:grid;
+    grid-template-columns:minmax(0,15rem) minmax(0,1fr);
+    gap:clamp(30px,6vw,72px);
+    align-items:start;
+  }
+  @media (max-width:860px){
+    .sheet{ grid-template-columns:1fr; gap:36px; }
+  }
+
+  /* ---------- Left rail ---------- */
+  .rail{ position:sticky; top:clamp(26px,5vw,56px); }
+  @media (max-width:860px){ .rail{ position:static; } }
+
+  .wordmark{
+    font-family:var(--serif);
+    font-size:clamp(2.4rem,7vw,3.4rem);
+    line-height:1;
+    letter-spacing:-.02em;
+    margin:0;
+    color:var(--ink);
+  }
+  .wordmark sup{
+    font-family:var(--mono); font-size:.28em; letter-spacing:.1em;
+    color:var(--accent); vertical-align:super; margin-left:.15em;
+  }
+  .role{
+    margin:14px 0 0;
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .rail p.bio{
+    margin:22px 0 0; font-size:.95rem; line-height:1.65; color:var(--ink-soft); max-width:32ch;
+  }
+
+  /* Block stamp — the one live element on an otherwise printed page. */
+  .stamp{
+    margin-top:30px;
+    border:1px solid var(--rule);
+    border-radius:3px;
+    padding:12px 14px;
+    background:var(--paper-2);
+    font-family:var(--mono);
+    max-width:15rem;
+  }
+  .stamp .lbl{ font-size:.6rem; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-faint); }
+  .stamp .num{
+    display:block; margin-top:6px; font-size:1.42rem; letter-spacing:-.01em;
+    color:var(--ink); font-variant-numeric:tabular-nums;
+  }
+  .stamp .sub{ display:block; margin-top:5px; font-size:.62rem; letter-spacing:.13em; text-transform:uppercase; color:var(--accent); }
+
+  /* ---------- Right column ---------- */
+  .col{ min-width:0; padding-bottom:clamp(40px,8vh,80px); }
+
+  .epigraph{
+    margin:0 0 clamp(38px,6vh,60px);
+    padding-bottom:clamp(30px,5vh,48px);
+    border-bottom:1px solid var(--rule);
+  }
+  .epigraph blockquote{
+    margin:0;
+    font-size:clamp(1.28rem,1.05rem+1.05vw,1.85rem);
+    line-height:1.42;
+    letter-spacing:-.012em;
+    text-wrap:balance;
+  }
+  .epigraph blockquote::first-letter{
+    float:left; font-size:3.1em; line-height:.82; padding:.06em .1em 0 0; color:var(--accent); font-weight:400;
+  }
+  .epigraph cite{
+    display:block; margin-top:20px;
+    font-family:var(--mono); font-style:normal; font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint);
+  }
+
+  .part{ margin-bottom:clamp(34px,5vh,54px); }
+  .part > h2{
+    margin:0 0 4px;
+    font-family:var(--mono); font-size:.66rem; font-weight:600; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--accent);
+  }
+  .part > .note{
+    margin:0 0 18px; font-size:.92rem; color:var(--ink-faint); font-style:italic;
+  }
+
+  .index{ list-style:none; margin:0; padding:0; border-top:1px solid var(--rule); }
+  .index li{ border-bottom:1px solid var(--rule-faint); }
+  .entry{
+    display:grid;
+    grid-template-columns:2.4rem minmax(0,1fr) auto;
+    gap:6px 16px;
+    align-items:baseline;
+    padding:15px 6px 15px 2px;
+    text-decoration:none; color:inherit;
+    transition:background .14s ease, padding .14s ease;
+  }
+  .entry:hover,.entry:focus-visible{ background:var(--paper-2); padding-left:8px; }
+  .entry:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  .entry .no{ font-family:var(--mono); font-size:.68rem; color:var(--ink-faint); }
+  .entry .ttl{ font-size:1.1rem; letter-spacing:-.005em; }
+  .entry .ttl em{ font-style:normal; border-bottom:1px solid transparent; transition:border-color .14s ease; }
+  .entry:hover .ttl em,.entry:focus-visible .ttl em{ border-color:var(--accent); }
+  .entry .tag{
+    font-family:var(--mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink-faint); white-space:nowrap;
+  }
+  .entry .sum{
+    grid-column:2 / -1; margin:0;
+    font-size:.93rem; line-height:1.55; color:var(--ink-soft);
+  }
+  @media (max-width:560px){
+    .entry{ grid-template-columns:2rem minmax(0,1fr); }
+    .entry .tag{ grid-column:2; }
+  }
+
+  footer{
+    border-top:1px solid var(--rule);
+    padding:22px 0 max(30px, env(safe-area-inset-bottom));
+    font-family:var(--mono); font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint);
+    display:flex; flex-wrap:wrap; gap:10px 26px; justify-content:space-between;
+  }
+  footer a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--rule); }
+  footer a:hover{ color:var(--accent); border-color:var(--accent); }
+
+  @media print{
+    body{ background:#fff; color:#000; }
+    .stamp,.rail{ position:static; }
+    .entry:hover{ background:none; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{ transition-duration:.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <aside class="rail">
+    <h1 class="wordmark">sam<sup>256</sup></h1>
+    <p class="role">Bitcoin &middot; first principles</p>
+    <p class="bio">
+      An index of small machines, field notes and objects. Everything here is meant
+      to be run, read, or held &mdash; not taken on faith.
+    </p>
+
+    <div class="stamp">
+      <span class="lbl">Chain tip</span>
+      <span class="num" id="height">&mdash;&mdash;&mdash;,&mdash;&mdash;&mdash;</span>
+      <span class="sub" id="tipsub">connecting</span>
+    </div>
+  </aside>
+
+  <main class="col">
+
+    <div class="epigraph">
+      <blockquote>
+        Bitcoin is everything you don&rsquo;t know about money, combined with everything you don&rsquo;t know about computer.
+      </blockquote>
+      <cite>&mdash; the premise</cite>
+    </div>
+
+    <section class="part">
+      <h2>I &mdash; Instruments</h2>
+      <p class="note">Open one. Feed it your own numbers. Nothing is sent anywhere.</p>
+      <ol class="index">
+        <li><a class="entry" href="/apps/diceroll/">
+          <span class="no">01</span><span class="ttl"><em>Dice Roll</em></span><span class="tag">Entropy</span>
+          <p class="sum">Turn physical dice rolls into the entropy behind a seed phrase.</p>
+        </a></li>
+        <li><a class="entry" href="/apps/mnemonic/">
+          <span class="no">02</span><span class="ttl"><em>Mnemonic</em></span><span class="tag">Derivation</span>
+          <p class="sum">One phrase, many wallets &mdash; watch the derivation tree unfold.</p>
+        </a></li>
+        <li><a class="entry" href="/apps/elliptic/">
+          <span class="no">03</span><span class="ttl"><em>Elliptic Curve</em></span><span class="tag">Maths</span>
+          <p class="sum">The curve arithmetic that turns a secret number into an address.</p>
+        </a></li>
+        <li><a class="entry" href="/apps/sha256/">
+          <span class="no">04</span><span class="ttl"><em>SHA256</em></span><span class="tag">Hashing</span>
+          <p class="sum">The one-way door underneath every block, demonstrated.</p>
+        </a></li>
+        <li><a class="entry" href="/apps/signature/">
+          <span class="no">05</span><span class="ttl"><em>Signature</em></span><span class="tag">Proof</span>
+          <p class="sum">Verify the digital signature on a real Bitcoin transaction.</p>
+        </a></li>
+        <li><a class="entry" href="http://pool.sam256.com/" target="_blank" rel="noopener">
+          <span class="no">06</span><span class="ttl"><em>Mining Pool</em></span><span class="tag">External</span>
+          <p class="sum">Point a miner at pool.sam256.com and add to the chain yourself.</p>
+        </a></li>
+      </ol>
+    </section>
+
+    <section class="part">
+      <h2>II &mdash; Field notes</h2>
+      <p class="note">Longer form, same territory.</p>
+      <ol class="index">
+        <li><a class="entry" href="https://belajarbitcoin.substack.com/" target="_blank" rel="noopener">
+          <span class="no">07</span><span class="ttl"><em>Belajar Bitcoin</em></span><span class="tag">Substack</span>
+          <p class="sum">Notes published as they are written.</p>
+        </a></li>
+        <li><a class="entry" href="https://samnawfal.blogspot.com/" target="_blank" rel="noopener">
+          <span class="no">08</span><span class="ttl"><em>The Archives</em></span><span class="tag">Blog</span>
+          <p class="sum">Everything written before the newsletter.</p>
+        </a></li>
+      </ol>
+    </section>
+
+    <section class="part">
+      <h2>III &mdash; Objects</h2>
+      <p class="note">Things that exist off the screen.</p>
+      <ol class="index">
+        <li><a class="entry" href="https://www.amazon.com/Bitcoin-Art-Raven-Wall-Sreet/dp/B0DJHC4M1R/" target="_blank" rel="noopener">
+          <span class="no">09</span><span class="ttl"><em>The Raven on Wall Street</em></span><span class="tag">Book</span>
+          <p class="sum">The long argument, printed and bound.</p>
+        </a></li>
+        <li><a class="entry" href="https://sam256.myspreadshop.com/all" target="_blank" rel="noopener">
+          <span class="no">10</span><span class="ttl"><em>Merch</em></span><span class="tag">Shop</span>
+          <p class="sum">Wearable propaganda for the timechain.</p>
+        </a></li>
+      </ol>
+    </section>
+
+    <footer>
+      <span>&copy; <span id="year">2026</span> sam256</span>
+      <span>Verify, don&rsquo;t trust</span>
+      <span>Tip via <a href="https://mempool.space" target="_blank" rel="noopener">mempool.space</a></span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const fmt = new Intl.NumberFormat("en-US");
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const heightEl = document.getElementById("height");
+  const subEl = document.getElementById("tipsub");
+
+  async function tip() {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    try {
+      const res = await fetch("https://mempool.space/api/blocks/tip/height", { cache: "no-store", signal: ctrl.signal });
+      if (!res.ok) throw new Error(res.status);
+      const h = parseInt((await res.text()).trim(), 10);
+      if (!Number.isFinite(h)) throw new Error("bad height");
+      heightEl.textContent = fmt.format(h);
+      subEl.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + " · verified";
+    } catch {
+      subEl.textContent = "offline";
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  tip();
+  setInterval(() => { if (!document.hidden) tip(); }, 60000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) tip(); });
+})();
+</script>
+</body>
+</html>

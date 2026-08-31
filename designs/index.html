@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>sam256 — design directions</title>
+<meta name="description" content="Three design directions for sam256.com, with the reasoning behind each." />
+<meta name="theme-color" content="#0e1417" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e1417'/><text x='16' y='22' font-family='monospace' font-size='15' font-weight='700' fill='%236ef3ff' text-anchor='middle'>s</text></svg>" />
+<style>
+  :root{
+    --bg:#0e1417; --card:#141c21; --line:rgba(180,210,220,.14);
+    --text:#c2d0d6; --ink:#f0f7fa; --muted:#8497a0; --accent:#6ef3ff; --amber:#f7931a;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font:400 16px/1.65 var(--sans); }
+  .wrap{ width:min(1080px,100%); margin-inline:auto; padding:clamp(30px,6vw,64px) clamp(20px,5vw,44px) 90px; }
+
+  header.top{ border-bottom:1px solid var(--line); padding-bottom:34px; margin-bottom:52px; }
+  .kicker{ font:600 .7rem/1 var(--mono); letter-spacing:.26em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
+  h1{ margin:0 0 16px; font-size:clamp(1.9rem,1.3rem+2.4vw,3rem); line-height:1.12; letter-spacing:-.025em; color:var(--ink); font-weight:600; }
+  .sub{ margin:0; max-width:62ch; font-size:1.03rem; color:var(--muted); }
+
+  h2{ font-size:1.35rem; letter-spacing:-.015em; color:var(--ink); margin:0 0 14px; font-weight:600; }
+  h3{ font:600 .72rem/1 var(--mono); letter-spacing:.24em; text-transform:uppercase; color:var(--amber); margin:0 0 20px; }
+
+  .findings{ margin-bottom:64px; }
+  .findings ol{ margin:0; padding:0; list-style:none; counter-reset:f; display:grid; gap:2px; }
+  .findings li{
+    counter-increment:f; display:grid; grid-template-columns:2.4rem 1fr; gap:4px 16px;
+    padding:16px 16px 16px 8px; border-radius:10px; background:rgba(255,255,255,.02);
+  }
+  .findings li::before{ content:counter(f,decimal-leading-zero); font:.72rem/1.6 var(--mono); color:var(--muted); }
+  .findings b{ color:var(--ink); font-weight:600; display:block; }
+  .findings span{ grid-column:2; color:var(--muted); font-size:.95rem; }
+
+  .opt{ margin-bottom:70px; }
+  .shot{
+    display:block; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    background:var(--card); margin-bottom:22px; line-height:0;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .shot:hover,.shot:focus-visible{ border-color:rgba(110,243,255,.45); transform:translateY(-3px); }
+  .shot:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .shot img{ width:100%; height:auto; display:block; }
+
+  .meta{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:10px 40px; align-items:start; }
+  @media (max-width:760px){ .meta{ grid-template-columns:1fr; } }
+  .meta p{ margin:0 0 12px; color:var(--muted); }
+  .meta ul{ margin:0; padding-left:18px; color:var(--muted); font-size:.94rem; }
+  .meta li{ margin-bottom:6px; }
+  .meta li b{ color:var(--text); font-weight:500; }
+
+  .tags{ display:flex; flex-wrap:wrap; gap:7px; margin:0 0 16px; }
+  .tag{ font:.66rem/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; color:var(--muted);
+        border:1px solid var(--line); border-radius:99px; padding:6px 11px; }
+  .tag.pick{ color:var(--amber); border-color:rgba(247,147,26,.4); }
+
+  .cta{
+    display:inline-flex; align-items:center; gap:9px; margin-top:18px;
+    font:.74rem/1 var(--mono); letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink); text-decoration:none; padding:12px 18px;
+    border:1px solid var(--line); border-radius:10px; transition:all .16s ease;
+  }
+  .cta:hover{ border-color:var(--accent); color:var(--accent); background:rgba(110,243,255,.05); }
+  .cta:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+
+  footer{ border-top:1px solid var(--line); padding-top:28px; font:.72rem/1.8 var(--mono); letter-spacing:.1em; color:var(--muted); }
+  footer a{ color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="kicker">sam256.com · design study</div>
+    <h1>Three directions for the same page.</h1>
+    <p class="sub">
+      The current site has a strong voice — CRT green-teal, monospace, a live block height, a quote and ten links.
+      The voice is worth keeping; what it needs is structure, contrast and a page that survives a small screen.
+      Below: what I'd fix, then three ways to fix it.
+    </p>
+  </header>
+
+  <section class="findings">
+    <h3>What I'd change</h3>
+    <ol>
+      <li><b>The links are the product, but they look like a footnote.</b>
+        <span>Ten uniform uppercase labels in one wrapped row, ranked equally. A first-time visitor can't tell that Dice Roll is an interactive tool and Merch is a shop. Group them, and give each one a line of description.</span></li>
+      <li><b>Descriptions hide behind <code>:hover</code>.</b>
+        <span>Every link has a genuinely useful <code>data-hint</code> — and on a phone, nobody ever sees it. Hover is not an interaction on touch, and it isn't one for keyboard users either.</span></li>
+      <li><b>The layout can't scroll.</b>
+        <span><code>overflow:hidden</code> on <code>body</code> plus an absolutely-positioned link row means that on a short window or a landscape phone, links get clipped with no way to reach them.</span></li>
+      <li><b>Contrast falls below WCAG AA.</b>
+        <span>Link text at <code>rgba(181,181,181,.68)</code> over the teal ground measures 3.73:1 against the 4.5:1 floor; the hint line manages 2.44:1, at roughly 9px. Every colour in all three directions below was measured and passes AA.</span></li>
+      <li><b>Focus styles are removed.</b>
+        <span><code>outline:none</code> on every anchor with nothing put back, so keyboard navigation is invisible. The overlay isn't a real dialog either — no focus trap, still tabbable when closed.</span></li>
+      <li><b>Nothing to share.</b>
+        <span>No meta description, no Open Graph tags, no favicon. Posting the URL anywhere produces a blank card titled "sam256".</span></li>
+      <li><b>The live block height is the best thing on the page and it's set in 11px grey.</b>
+        <span>It's the one element proving the site is plugged into a running chain. Two of the directions below make far more of it.</span></li>
+      <li><b>Small robustness gaps.</b>
+        <span>The <code>fetch</code> has no timeout and keeps polling in a hidden tab; the <kbd>S</kbd> shortcut fires even while typing; reduced-motion is honoured in CSS but the glitch timer keeps running in JS.</span></li>
+    </ol>
+  </section>
+
+  <section class="opt">
+    <div class="tags"><span class="tag pick">Recommended</span><span class="tag">Closest to today</span><span class="tag">Lowest risk</span></div>
+    <h2>A · Signal</h2>
+    <a class="shot" href="signal.html"><img src="../assets/signal-desktop.png" alt="Signal design: dark teal terminal layout with a masthead, quote, and grouped link cards" loading="lazy" /></a>
+    <div class="meta">
+      <p>
+        The current site, kept honest. Same palette, same CRT atmosphere, same <kbd>?</kbd> and <kbd>S</kbd> easter eggs —
+        but the links become grouped cards that carry their descriptions in the open, and the page scrolls when it has to.
+      </p>
+      <ul>
+        <li><b>Keeps</b> the teal, the scanlines, the drifting starfield, the caret and the glitch.</li>
+        <li><b>Fixes</b> contrast to AA, restores focus rings, real <code>&lt;dialog&gt;</code> with a working focus trap.</li>
+        <li><b>Adds</b> Tools / Writing / Artifacts grouping, "last block Nm ago", and a silence mode that is remembered across visits.</li>
+        <li><b>Risk:</b> minimal. It's the same site with the sharp edges filed off.</li>
+      </ul>
+    </div>
+    <a class="cta" href="signal.html">Open Signal &rarr;</a>
+  </section>
+
+  <section class="opt">
+    <div class="tags"><span class="tag">Boldest</span><span class="tag">Live data</span></div>
+    <h2>B · Timechain</h2>
+    <a class="shot" href="timechain.html"><img src="../assets/timechain-desktop.png" alt="Timechain design: huge live block height over a faint grid, a strip of recent blocks, and numbered link rows" loading="lazy" /></a>
+    <div class="meta">
+      <p>
+        Promotes the block height from telemetry to hero. The tip number fills the screen, a scrollable strip shows
+        the last eight blocks with their ages and transaction counts, and the tools read as a numbered index below.
+      </p>
+      <ul>
+        <li><b>Hero:</b> the live chain tip, plus blocks-to-halving computed on the fly.</li>
+        <li><b>Chain strip:</b> real blocks from mempool.space, each linking to its explorer page.</li>
+        <li><b>Adds</b> Bitcoin orange against the teal, a sticky nav, and a ledger-ruled background grid.</li>
+        <li><b>Risk:</b> depends most on the API — falls back to the tip-height endpoint, then to an offline state.</li>
+      </ul>
+    </div>
+    <a class="cta" href="timechain.html">Open Timechain &rarr;</a>
+  </section>
+
+  <section class="opt">
+    <div class="tags"><span class="tag">Contrarian</span><span class="tag">Light + dark</span></div>
+    <h2>C · Ledger</h2>
+    <a class="shot" href="ledger.html"><img src="../assets/ledger-desktop.png" alt="Ledger design: light paper layout with a serif wordmark, a chain tip stamp and a numbered index of entries" loading="lazy" /></a>
+    <div class="meta">
+      <p>
+        The deliberate opposite. Paper instead of phosphor: a serif index card that treats the site as a published
+        catalogue — numbered entries in three parts, a drop-capped epigraph, and one live element, the chain-tip stamp.
+      </p>
+      <ul>
+        <li><b>Best for</b> the book and the newsletter — it reads like something an author keeps.</li>
+        <li><b>Adapts</b> automatically to the reader's light or dark preference, and prints cleanly.</li>
+        <li><b>Trades</b> the hacker atmosphere for legibility and calm; highest contrast of the three.</li>
+        <li><b>Risk:</b> it's a genuine change of voice. Worth seeing before deciding.</li>
+      </ul>
+    </div>
+    <a class="cta" href="ledger.html">Open Ledger &rarr;</a>
+  </section>
+
+  <footer>
+    All three are single self-contained HTML files with no build step and no dependencies, matching how the site is built today.<br />
+    None of them replace <code>index.html</code> — pick one and it becomes the new front page.
+  </footer>
+
+</div>
+</body>
+</html>
