@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How the Sovereign Chat iOS beta handles account information, encrypted messages, calls, and privacy requests.">
+  <title>Sovereign Chat Privacy Policy</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --background: #f5f7f7;
+      --surface: #ffffff;
+      --text: #1c282b;
+      --muted: #4d6063;
+      --accent: #006361;
+      --border: #d9e2e2;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    main {
+      max-width: 52rem;
+      margin: clamp(1rem, 5vw, 4rem) auto;
+      padding: 0 1rem;
+    }
+
+    article {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: clamp(1.25rem, 5vw, 3.25rem);
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.25rem;
+    }
+
+    h1, h2 { line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 6vw, 3rem); margin: 0.25rem 0 0.65rem; }
+    h2 { font-size: 1.25rem; margin: 0 0 0.6rem; }
+    p { margin: 0 0 0.75rem; }
+    p:last-child { margin-bottom: 0; }
+    section { margin-top: 1.75rem; }
+    ul { margin: 0; padding-inline-start: 1.3rem; }
+    li + li { margin-top: 0.55rem; }
+    .effective-date { color: var(--muted); }
+    a { color: var(--accent); text-underline-offset: 0.15em; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #10191b;
+        --surface: #182326;
+        --text: #e8f1f1;
+        --muted: #b5c9ca;
+        --accent: #8ee1d4;
+        --border: #33484b;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <header>
+        <h1>Sovereign Chat Privacy Policy</h1>
+        <p class="effective-date">Effective <time datetime="2026-11-13">November 13, 2026</time></p>
+        <p>This policy applies to the Sovereign Chat iOS private beta operated by Sam256. The beta uses a self-hosted Matrix server for messaging and a self-hosted LiveKit relay for voice and video calls.</p>
+      </header>
+
+      <section aria-labelledby="information">
+        <h2 id="information">Information we handle</h2>
+        <ul>
+          <li><strong>Accounts and devices.</strong> The operator provisions your Matrix account. The server handles your username, sign-in and session information, device identifiers, and public encryption keys to authenticate your devices and deliver messages. Your chosen display name and avatar can be visible to people you chat with.</li>
+          <li><strong>Messages and files.</strong> Messages and attachments in encrypted rooms are end-to-end encrypted. The Matrix server stores encrypted content for delivery and sync. It also processes information needed to run rooms, including account and room identifiers, room membership, and timestamps. If you enable chat key backup, the server stores an encrypted copy of your room keys.</li>
+          <li><strong>Calls and connections.</strong> The call relay forwards end-to-end encrypted audio and video. The servers process connection information, such as IP addresses, call participation and timing, and technical errors, to route traffic, keep the service running, and troubleshoot problems.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="permissions">
+        <h2 id="permissions">iPhone permissions</h2>
+        <p>The app uses your microphone when you make a call or record a voice message, your camera when you turn on video or take a photo, and photos or files you select when you attach them to a message. If you choose to share your location and grant permission, the app uses it for that sharing feature. You can change device permissions in iOS Settings and stop live sharing in the app.</p>
+      </section>
+
+      <section aria-labelledby="sharing">
+        <h2 id="sharing">Sharing and third parties</h2>
+        <p>People in a room can read content shared with that room and may save copies. The beta operator can access server records for account administration, security, and troubleshooting. The app’s analytics and third-party crash-reporting integrations are disabled in this beta. Sovereign Chat does not sell personal data or use it for advertising or cross-app tracking.</p>
+        <p>Apple distributes the beta through TestFlight. The operator may receive tester details, device and session information, crash reports, and feedback through App Store Connect. Feedback you submit can include comments or screenshots. <a href="https://testflight.apple.com/">Apple TestFlight</a></p>
+        <p>GitHub Pages hosts this policy. GitHub logs visitor IP addresses for security when this page is opened. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a></p>
+      </section>
+
+      <section aria-labelledby="retention">
+        <h2 id="retention">Retention and deletion</h2>
+        <p>The beta keeps account records and encrypted room history to operate the service. These records can remain until the operator removes them. Technical logs are kept until rotated or removed. If the operator makes backups, deleted data may remain in those copies until the backups are removed. Copies saved by other participants can remain on their devices after server-side deletion.</p>
+        <p>You can ask the operator to access or correct your account information, deactivate your account, or delete data held by the service. You can withdraw device permissions in iOS Settings.</p>
+      </section>
+
+      <section aria-labelledby="contact">
+        <h2 id="contact">Privacy contact</h2>
+        <p>For privacy questions or requests, reply privately to the person who issued your Sovereign Chat account or use the beta’s feedback contact in TestFlight. Include your Matrix username if your request concerns your account. Keep your password and recovery key private.</p>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
